@@ -1,9 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using Echo_Replica.Core.Entities;
+﻿using Echo_Replica.Core.Entities;
 
-namespace Echo_Replica.Core.Interfaces.Repositories;
+namespace Echo_Replica.Core.Interfaces.Services;
 
-public interface IReplicaWordRepository
+public interface IReplicaWordService
 {
     public Task<ReplicaWord> Get(Guid replicaWordGuid);
     
@@ -12,4 +11,4 @@ public interface IReplicaWordRepository
     public Task<Guid> Add(ReplicaWord replicaWord);
 
     public Task UpdateFrequency(Guid replicaWordGuid, int frequency);
-}
+} 

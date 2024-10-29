@@ -4,11 +4,9 @@ namespace Echo_Replica.Core.Interfaces.Repositories;
 
 public interface IReplicaRepository
 {
-    public Replica GetById(Guid guid);
+    public Task<Replica?> Get(Guid replicaGuid);
     
-    public Guid Add(Replica replica);
-    
-    public Guid UpdateUniqueWordCount(Replica replica);
-    
-    
+    public Task<Replica> Add(Replica replica);
+
+    public Task UpdateUniqueWordCountAsync(Guid replicaGuid, int uniqueWordCount);
 }

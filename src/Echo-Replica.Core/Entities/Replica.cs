@@ -12,5 +12,5 @@ public class Replica : BaseEntity
     public string Name { get; private set; }
     public int UniqueWordCount { get; set; } = 0;
     
-    public ICollection<ReplicaWord> ReplicaWords { get; set; } = new List<ReplicaWord>();
+    public IList<ReplicaWord> ReplicaWords { get; private set; } = new List<ReplicaWord>();
 }

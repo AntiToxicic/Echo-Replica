@@ -5,9 +5,9 @@ namespace Echo_Replica.Core.Interfaces.Services;
 
 public interface IWordService
 {
-    public Word GetWord(string word);
+    public Task<Word> GetWord(string word);
     
-    public List<Word> GetAllWords();
+    public Task<IReadOnlyCollection<Word>> GetAllWords();
     
-    public void AddWords(Collection<Word> words);
+    public Task AddWords(Collection<Word> words);
 }

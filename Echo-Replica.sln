@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Echo-Replica.Core", "src\Ec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Echo-Replica.Application", "src\Echo-Replica.Application\Echo-Replica.Application.csproj", "{AD04617C-5242-4806-9A8F-14D00556762A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Echo-Replica.Infrastructure", "src\Echo-Replica.Infrastructure\Echo-Replica.Infrastructure.csproj", "{72C572AF-7C5F-4133-B859-4230C606B53F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{AD04617C-5242-4806-9A8F-14D00556762A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD04617C-5242-4806-9A8F-14D00556762A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD04617C-5242-4806-9A8F-14D00556762A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72C572AF-7C5F-4133-B859-4230C606B53F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72C572AF-7C5F-4133-B859-4230C606B53F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72C572AF-7C5F-4133-B859-4230C606B53F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72C572AF-7C5F-4133-B859-4230C606B53F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

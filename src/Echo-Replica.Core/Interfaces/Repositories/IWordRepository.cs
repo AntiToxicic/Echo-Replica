@@ -1,6 +1,13 @@
-﻿namespace Echo_Replica.Core.Interfaces.Repositories;
+﻿using System.Collections.ObjectModel;
+using Echo_Replica.Core.Entities;
 
-public class IWordRepository
+namespace Echo_Replica.Core.Interfaces.Repositories;
+
+public interface IWordRepository
 {
+    public Task<Word> GetWord(string word);
     
+    public Task<IReadOnlyCollection<Word>> GetAllWords();
+    
+    public Task AddWords(Collection<Word> words);
 }

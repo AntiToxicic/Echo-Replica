@@ -4,9 +4,9 @@ namespace Echo_Replica.Core.Interfaces.Services;
 
 public interface IReplicaService
 {
-    public Replica GetById(Guid guid);
+    public Task<Replica> Get(Guid replicaGuid);
     
-    public Guid Add(Replica replica);
+    public Task<Guid> Add(Replica replica);
     
-    public void UpdateUniqueWordCount(Replica replica);
+    public Task UpdateUniqueWordCount(Guid replicaGuid, int uniqueWordCount);
 }
