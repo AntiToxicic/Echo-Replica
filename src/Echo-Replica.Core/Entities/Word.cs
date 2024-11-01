@@ -5,6 +5,12 @@ namespace Echo_Replica.Core.Entities;
 
 public class Word : BaseEntity
 {
+    public Word(string text, PartOfSpeech partOfSpeech)
+    {
+        Text = text;
+        PartOfSpeech = partOfSpeech;
+    }
+
     public Guid ReplicaId { get; set; }
     
     public string Text { get; set; }

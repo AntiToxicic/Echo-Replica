@@ -1,7 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using Echo_Replica.Core.Entities;
+﻿using Echo_Replica.Core.Entities;
 using Echo_Replica.Core.Interfaces.Repositories;
-using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace Echo_Replica.Infrastructure.Repositories;
 
@@ -14,18 +13,17 @@ public class WordRepository : IWordRepository
         _context = context;
     }
 
-    public Task<Word> GetWord(string word)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Word?> GetWord(string word) =>
+        _context.Words.FirstOrDefaultAsync(c => c.Text == word);
 
-    public Task<IReadOnlyCollection<Word>> GetAllWords()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<IReadOnlyCollection<Word>> GetAllWords() =>
+        await _context.Words.ToListAsync();
 
-    public Task AddWords(Collection<Word> words)
+    public async Task<IReadOnlyCollection<Word>> AddWords(IReadOnlyCollection<Word> words)
     {
-        throw new NotImplementedException();
+        _context.Words.AddRange(words);
+        await _context.SaveChangesAsync();
+
+        return words;
     }
 }

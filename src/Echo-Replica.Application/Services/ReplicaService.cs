@@ -1,23 +1,33 @@
 ﻿using Echo_Replica.Core.Entities;
-using Echo_Replica.Core.Interfaces;
+using Echo_Replica.Core.Interfaces.Repositories;
 using Echo_Replica.Core.Interfaces.Services;
 
 namespace Echo_Replica.Application.Services;
 
 public class ReplicaService : IReplicaService
 {
-    public Replica GetById(Guid guid)
+    private readonly IReplicaRepository _replicaRepository;
+
+    public ReplicaService(IReplicaRepository replicaRepository)
     {
-        throw new NotImplementedException();
+        _replicaRepository = replicaRepository;
     }
 
-    public Guid Add(Replica replica)
+    public async Task<Replica?> Get(Guid replicaGuid)
     {
-        throw new NotImplementedException();
-    }
+        var replica = await _replicaRepository.Get(replicaGuid);
 
-    public void UpdateUniqueWordCount(Replica replica)
+        return replica;
+    }
+    
+    public async Task<Replica> Add(Replica replica)
     {
-        throw new NotImplementedException();
+        var addedReplica = await _replicaRepository.Add(replica);
+        return addedReplica;
+    }
+    
+    public async Task UpdateUniqueWordCount(Guid replicaGuid, int uniqueWordCount)
+    {
+        await _replicaRepository.UpdateUniqueWordCountAsync(replicaGuid, uniqueWordCount);
     }
 }
