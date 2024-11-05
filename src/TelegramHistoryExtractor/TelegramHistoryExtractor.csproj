@@ -4,11 +4,32 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>TelegramHistoryParser</RootNamespace>
+        <RootNamespace>TelegramHistoryExtractor</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Concentus" Version="2.2.2" />
+      <PackageReference Include="Concentus.Oggfile" Version="1.0.6" />
       <PackageReference Include="HtmlAgilityPack" Version="1.11.70" />
+      <PackageReference Include="NAudio" Version="2.2.1" />
+      <PackageReference Include="NVorbis" Version="0.10.5" />
+      <PackageReference Include="TestableIO.System.IO.Abstractions" Version="21.0.29" />
+      <PackageReference Include="Vosk" Version="0.3.38" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\..\..\..\Users\truhi\.nuget\packages\vosk\0.3.38\build\lib\win-x64\libgcc_s_seh-1.dll">
+        <Link>ExternalLibs\libgcc_s_seh-1.dll</Link>
+      </None>
+      <None Include="..\..\..\..\..\Users\truhi\.nuget\packages\vosk\0.3.38\build\lib\win-x64\libstdc++-6.dll">
+        <Link>ExternalLibs\libstdc++-6.dll</Link>
+      </None>
+      <None Include="..\..\..\..\..\Users\truhi\.nuget\packages\vosk\0.3.38\build\lib\win-x64\libvosk.dll">
+        <Link>ExternalLibs\libvosk.dll</Link>
+      </None>
+      <None Include="..\..\..\..\..\Users\truhi\.nuget\packages\vosk\0.3.38\build\lib\win-x64\libwinpthread-1.dll">
+        <Link>ExternalLibs\libwinpthread-1.dll</Link>
+      </None>
     </ItemGroup>
 
 </Project>

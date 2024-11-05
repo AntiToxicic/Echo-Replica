@@ -1,33 +1,40 @@
 ﻿using System.Globalization;
 using HtmlAgilityPack;
-using TelegramHistoryParser.Entities;
+using TelegramHistoryExtractor.Entities;
 
-namespace TelegramHistoryParser;
+namespace TelegramHistoryExtractor;
 
 public class HtmlParser
 {
-    private readonly FileManager _fileManager;
-
-    public HtmlParser(FileManager fileManager)
+    public IEnumerable<IReadOnlyCollection<TextMessage>> GetTextMessages(IReadOnlyCollection<string> htmlFiles)
     {
-        _fileManager = fileManager;
+        foreach (var messagesBatch in ExtractMessagesFromHtml(htmlFiles, message => message is TextMessage))
+        {
+            yield return messagesBatch.ConvertAll(message => (TextMessage)message);
+        }
     }
 
-    public IEnumerable<Message> GetMessagesForEachHtml()
+    public IEnumerable<IReadOnlyCollection<AudioMessage>> GetAudioMessages(IReadOnlyCollection<string> htmlFiles)
     {
-        var htmlFiles = _fileManager.GetAllHtmlFiles();
+        foreach (var messagesBatch in ExtractMessagesFromHtml(htmlFiles, message => message is AudioMessage))
+        {
+            yield return messagesBatch.ConvertAll(message => (AudioMessage)message);
+        }
+    }
 
+    private IEnumerable<List<Message>> ExtractMessagesFromHtml(
+        IReadOnlyCollection<string> htmlFiles,
+        Func<Message, bool> filter)
+    {
         foreach (var htmlFile in htmlFiles)
         {
             var doc = new HtmlDocument();
             doc.Load(htmlFile);
 
             var messageNodes = doc.DocumentNode.SelectNodes("//div[contains(@class, 'message')]");
+            if (messageNodes == null) continue;
 
-            if (messageNodes == null)
-            {
-                continue;
-            }
+            var messagesBatch = new List<Message>();
 
             foreach (var messageNode in messageNodes)
             {
@@ -36,7 +43,6 @@ public class HtmlParser
 
                 var dateNode = messageNode.SelectSingleNode(".//div[contains(@class, 'date')]");
                 DateTime dateTime = DateTime.MinValue;
-
                 if (dateNode != null && dateNode.Attributes["title"] != null)
                 {
                     var dateString = dateNode.Attributes["title"].Value;
@@ -44,22 +50,35 @@ public class HtmlParser
                         CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime);
                 }
 
+                Message? message = null;
+
+                // Проверка на текстовое сообщение
                 var textNode = messageNode.SelectSingleNode(".//div[@class='text']");
                 if (textNode != null)
                 {
                     var textContent = textNode.InnerText.Trim();
-                    var textMessage = new TextMessage(userName, dateTime, textContent);
-                    yield return textMessage; // Возвращаем текстовое сообщение
-                    continue;
+                    message = new TextMessage(userName, dateTime, textContent);
+                }
+                else
+                {
+                    // Проверка на аудиосообщение
+                    var audioNode = messageNode.SelectSingleNode(".//a[contains(@class, 'media_voice_message')]");
+                    if (audioNode != null)
+                    {
+                        var audioPath = audioNode.Attributes["href"]?.Value ?? "Unknown Path";
+                        message = new AudioMessage(userName, dateTime, audioPath);
+                    }
                 }
 
-                var mediaNode = messageNode.SelectSingleNode(".//div[contains(@class, 'media_audio')]");
-                if (mediaNode != null)
+                if (message != null && filter(message))
                 {
-                    var audioPath = mediaNode.Attributes["src"]?.Value ?? "Unknown Path";
-                    var audioMessage = new AudioMessage(userName, dateTime, audioPath);
-                    yield return audioMessage; // Возвращаем аудио сообщение
+                    messagesBatch.Add(message);
                 }
+            }
+
+            if (messagesBatch.Count > 0)
+            {
+                yield return messagesBatch;
             }
         }
     }

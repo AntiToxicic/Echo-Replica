@@ -1,4 +1,4 @@
-﻿namespace TelegramHistoryParser.Entities;
+﻿namespace TelegramHistoryExtractor.Entities;
 
 public class TextMessage : Message
 {
